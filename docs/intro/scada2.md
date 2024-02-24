@@ -3,7 +3,7 @@
 This is a new major version of the American Water Ignition HMI SCADA framework.
 In line with the semantic versioning principles, this release has breaking changes
 and is not backwards compatible with version 1.x. While this version is intended for
-new projects, some features can be incorporated into version 1.x on a case-by-case basis.
+new projects, some features can be incorporated into version 1.x projects on a case-by-case basis.
 
 ## Highlights
 
@@ -150,8 +150,8 @@ the cached `ActiveAlarms` dataset tag.
 
 Unnecessary script transforms have been removed from core component symbols. While script transforms are 
 very powerful, they should be avoided for highly used components to improve responsiveness. It's not 
-that the script itself is slower than other type of transforms, since it has already been compiled to java 
-on the backend.
+that the script itself is slower than other types of transforms (it's compiled to java 
+on the backend).
 It's the overhead of the Remote Procedure Call (RPC) that Ignition has to do to get the results of the script 
 from the gateway that slows the responsiveness. Other, simpler transforms, can be executed by javascript within the browser, thus
 improving responsiveness.
@@ -183,8 +183,8 @@ setting up a custom alarm roster/pipeline usually involves configuring pipeline 
 Ignition notification pipelines are geared toward using bulk rosters that require setting up each individual's 
 schedule. The Ad Hoc Alarm Notification tool uses dynamic single
 person rosters that can to do "escalation" or "blast" notifications. It's much easier for an operator
-to quickly add/remove themselves from a dynamic roster than to constantly maintain a schedule.
-Also, minimum alarm priority, source path filters, and start-end times can all
+to quickly add/remove themselves from a dynamic roster than to constantly maintain their schedule.
+Also, minimum alarm priority, source path filters, and start-end times can all be
 configured for each roster without having to touch a pipeline block diagram or scripting.
 
 
@@ -215,20 +215,20 @@ by default. This new trend picker tool requires little to no setup by the develo
 #### Simulated Project
 
 The new start-up kit includes a fully simulated example project showing the newer techniques of 2.x. 
-This gives developer a example project (although much simpler than a real world project)
+This gives developers a example project (although much simpler than a real world project)
 to help them get started on new projects. Currently, it's a very simple ground water system but more 
 complicated processes/components can be added over time.
 
 <img src="../img/simulated-project.png" alt="View Structure" style="margin-bottom:15px;">
 
 
-#### Improved Documentation with Videos
+#### Improved Documentation and Videos
 
-Currently under development. All development documentation, videos and resources on a single website like this? My vote is yes!
+Currently under development. All documentation, videos and resource links on a single website like this example?
 
 #### Git Integration?
 
-This will let all developers see every change made in templates, when it was changed, and who changed it. 
+This will let developers see every change made in templates, when it was changed, what exactly was changed, and who changed it. 
 Plus, they can easily report bugs, 
 request new features and even contribute through pull requests. Needs some more configuring/testing to improve 
-user experience (f***ing resource files!) but very promising.
+user experience (f***ing resource files) but very promising!
