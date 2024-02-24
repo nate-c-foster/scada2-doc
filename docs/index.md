@@ -1,10 +1,9 @@
-# Announcing SCADA 2.0
+# SCADA 2.0
 
 This is a new major version of the American Water Ignition HMI SCADA framework!
 In line with the semantic versioning principles, this realease has breaking changes
 and is not backwards compatable with version 1. While this version is intended for
-new projects that haven't began development yet some features can be imported into 
-version 1 on a case-by-case basis.
+new projects some features can be imported into version 1 on a case-by-case basis.
 
 ## Highlights
 

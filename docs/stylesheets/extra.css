@@ -1,0 +1,20 @@
+[data-md-color-scheme="default"] {
+
+    --md-primary-fg-color:  green;
+
+    .md-typeset h1 {
+        font-weight:700;
+        color: var(--md-primary-fg-color--dark);
+    }
+
+  }
+
+
+[data-md-color-scheme="slate"] {
+
+    --md-primary-fg-color: green;
+
+  }
+
+
+

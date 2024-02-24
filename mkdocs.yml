@@ -1,1 +1,52 @@
-site_name: SCADA 2.0 Docs
+site_name: SCADA Development Docs
+
+nav:
+  - 'SCADA 2.0': 'index.md'
+  - 'Getting Started': 
+    - 'Gatway Setup': 'getting-started/gateway-setup.md'
+    - 'Project Setup': 'getting-started/project-setup.md'
+    - 'Installing Resources': 'getting-started/installing-resources.md'
+    - 'Simulation Project': 'getting-started/simulation-project.md'
+  - "Devepoler's Guide": 
+    - 'Location Model': 'developers-guide/location-model.md'
+    - 'Tags and UDTs': 'developers-guide/tags-udts.md'
+    - 'Views and Navigation': 'developers-guide/views-navigation.md'
+    - 'Component Symbols': 'developers-guide/component-symbols.md'
+    - 'Component Faceplates': 'developers-guide/component-faceplates.md'
+    - 'Process Status Control': 'developers-guide/process-control.md'
+    - 'Alarming': 'developers-guide/alarming.md'
+    - 'Trending': 'developers-guide/trending.md'
+    - 'Reports': 'developers-guide/reports.md'
+  - 'HMI Standards': 
+    - 'Guiding Principles': 'hmi-standards/guiding-principles.md'
+    - 'Colors and Graphics': 'hmi-standards/colors-graphics.md'
+    - 'Alarms': 'hmi-standards/alarms.md'
+    - 'Security': 'hmi-standards/security.md'
+
+theme:
+  name: material
+  features:
+    - navigation.tabs
+    - navigation.sections
+  font:
+    text: Inter
+
+  palette:
+
+    # Palette toggle for light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      toggle:
+        icon: material/toggle-switch
+        name: Switch to dark mode
+
+    # Palette toggle for dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      toggle:
+        icon: material/toggle-switch-off-outline
+        name: Switch to light mode
+
+
+extra_css:
+  - stylesheets/extra.css
