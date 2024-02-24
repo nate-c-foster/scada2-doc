@@ -1,7 +1,9 @@
 site_name: SCADA Development Docs
 
 nav:
-  - 'SCADA 2.0': 'index.md'
+  - 'Intro': 
+    - 'Welcome': 'index.md'
+    - 'SCADA 2.x': 'intro/scada2.md'
   - 'Getting Started': 
     - 'Gatway Setup': 'getting-started/gateway-setup.md'
     - 'Project Setup': 'getting-started/project-setup.md'
@@ -25,6 +27,7 @@ nav:
 
 theme:
   name: material
+
   features:
     - navigation.tabs
     - navigation.sections
@@ -36,6 +39,7 @@ theme:
     # Palette toggle for light mode
     - media: "(prefers-color-scheme: light)"
       scheme: default
+      primary: black
       toggle:
         icon: material/toggle-switch
         name: Switch to dark mode
@@ -43,6 +47,7 @@ theme:
     # Palette toggle for dark mode
     - media: "(prefers-color-scheme: dark)"
       scheme: slate
+      primary: black
       toggle:
         icon: material/toggle-switch-off-outline
         name: Switch to light mode
@@ -50,3 +55,7 @@ theme:
 
 extra_css:
   - stylesheets/extra.css
+
+markdown_extensions:
+  - toc:
+      toc_depth: 3

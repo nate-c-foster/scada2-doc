@@ -1,6 +1,13 @@
+
+/*
 [data-md-color-scheme="default"] {
 
+    
+
     --md-primary-fg-color:  green;
+
+    .md-content .md-content__inner .md_typeset{
+    }
 
     .md-typeset h1 {
         font-weight:700;
@@ -16,5 +23,5 @@
 
   }
 
-
+*/
 
