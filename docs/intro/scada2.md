@@ -13,7 +13,8 @@ new projects, some features can be incorporated into version 1.x on a case-by-ca
 
 For the previous version, a
 `Mobile`, `Tablet`, `Desktop`, and `Overview Widget` view had to be
-developed for every location. With this version, only a `P&ID` view needs to be
+developed for every location. With this version, the `P&ID` view is 
+the only required view that needs to be
 developed and only for process locations. See image below for
 an example view structure. Note also that any type of view can
 easily be overridden with a custom view by placing that view in the
@@ -57,7 +58,7 @@ different AOIs. For example, a developer can setup a VFD UDT and a
 Soft-Start UDT that inherent from the same Motor UDT and use the
 same symbol and faceplate. This also makes maintenance easier
 since there will be less core UDTs, symbols and faceplates to
-maintain. See image below for an example UDT structure using
+maintain. See image below of a UDT structure using
 inheritance.
 
 <img src="../img/udt_structure.png" alt="View Structure" style="margin-bottom:15px;">
@@ -75,8 +76,8 @@ binding `{locationName} {componentName} {alarm}`.
 UDT custom properties are used by the HMI framework to automate overview displays, mobile views, 
 trending pens, etc ... Any UDT that inherits from the core UDT `Components/Component` will get
 these custom properties and will be considered a "component" by the HMI framework. These custom 
-properties allow the developer to tweak the behavior of the HMI framework without modifying any of 
-the scripting. See image below for the custom properties of a motor UDT.
+properties allow the developer to tweak the behavior of the HMI framework without needing to modifying any of 
+the backend scripting. See image below of the Motor UDT.
 
 <img src="../img/motor_custom_props.png" alt="View Structure" style="margin-bottom:15px;">
 
@@ -86,27 +87,31 @@ the scripting. See image below for the custom properties of a motor UDT.
 
 #### Faceplate skeleton refactored
 
-Faceplate skeleton refactored to improve performance and customizability. 
-Originally, there was a lot of
-scripting to figure out which tab view to render based on the UDT
-type. This decreased performance and a SI would have to update the
-scripting in multiple places to add a new faceplate or faceplate tab
+Faceplate skeleton was refactored to improve performance and customizability. 
+Originally, there was scripting to figure out which tab view to render based 
+on the UDT type. This decreased performance and a developer would have to update the
+scripting in multiple places to add a new faceplate or update a tab
 view. Now, which view to render comes from a custom property within
-the UDT (see image below). This means SIs can now easily add, edit
-and remove tab views for specific user defined UDTs.
+the UDT (see image below). This means developers can now easily add, edit
+and remove tab views for core and user defined UDTs.
+
+<img src="../img/faceplate_tabs.png" alt="View Structure" style="margin-bottom:15px;">
 
 #### Form templates
 
 Form templates have been added to speed up development, improve maintainability, and ensure
-consistency when developing faceplates and docks.** Most forms
-consist of a list of rows where each row consists of a label, a form
-of input/output, and possibly units. SIs no longer have to do the
-tedious work of lining up rows, enforcing security, read/writing tag
-values, and adding the correct style class. This is taken care of in
+consistency when developing faceplates and docks. Most forms
+consist of a list of rows where each row consists of a label, an input/output form, and possibly units. 
+Developers no longer have to do the
+tedious work of lining up rows, enforcing security, creating read/writing tag
+bindings, and adding the correct style classes. This is taken care of in
 the form templates. Also, maintenance is much easier since only a
 view places need to be updated to update every faceplate/dock that
-uses form templates. See image on right of a custom dock made using
+uses form templates. See image below of a custom dock made using
 form templates.
+
+
+<img src="../img/custom_dock.png" alt="View Structure" style="margin-bottom:15px;">
 
 
 
@@ -115,33 +120,93 @@ form templates.
 
 #### Tag groups 
 
-Tag groups are used to reduce CPU overhead for tag scanning.
+All the core UDTs now use tag groups.
+One of the biggest demands on the server is tag polling. Not all tags need to be polled at
+the same rate. Analog values, alarm statuses, and control tags can be polled at a higher 
+rate, while the poll rate can be turned down for other tags. Also, leased tags can be set
+to poll at a faster rate when the tags are being displayed and a slower rate when they are not.
 
 #### Alarm scanning
 
-Updated method for alarm scanning
+Every view component, that has an alarm associated with it, needs to scan for active children alarms. 
+Originally, every component called 
+the Ignition built-in function `system.alarm.queryStatus()` which does a global alarm scan and can be very
+computationally expensive. To quote the Ignition manual:
 
-#### Symbol script transforms
+!!! note
 
-Unnecessary scripting has been removed from core component symbols.
+    Depending on the number of alarm events in the system, this function can be fairly intensive and 
+    take a while to finish executing. This can be problematic if the application is attempting to show 
+    the results on a component (such as using this function to retrieve a count of alarms). In these 
+    cases it's preferred to call this function in a gateway script of some sort (such as a timer script), 
+    and store the results in a tag.
+
+Now this function is only called once for every alarm scan. The components still need to query for children
+alarms, but this only happens if there is a new alarm in the system and the query is just a linear search on
+the cached `ActiveAlarms` dataset tag.
 
 
-### New Tools
+#### Reduced script transforms
 
-#### Ad Hoc Reporting Tool
+Unnecessary script transforms have been removed from core component symbols. While script transforms are 
+very powerful, they should be avoided for highly used components to improve responsiveness. It's not 
+that the script itself is slower than other type of transforms, since it has already been compiled to java 
+on the backend.
+It's the overhead of the Remote Procedure Call (RPC) that Ignition has to do to get the results of the script 
+from the gateway that slows the responsiveness. Other, simpler transforms, can be executed by javascript within the browser, thus
+improving responsiveness.
 
-#### Updated Alarm Notification Tool
 
-Updated Ad Hoc Alarm Notification tool to quickly create and
-customize alarm pipelines/rosters.
+### New and Updated Tools
+
+#### New Ad Hoc Reporting Tool
+
+Developing reports can be difficult and time consuming. This tool has a set of user customizable
+reports that are typically used at water/wasterwater plants. Currently these include flow totals, equipment 
+runtimes and cycles, instrument value snapshots with previous 24 hour statistics, equipment state 
+snapshots with previous 24 hour statistics, and tank volume usage reports. See a sample report below.
+
+<img src="../img/report_view.png" alt="View Structure" style="margin-bottom:15px;">
+
+These are ad hoc in the sense that the operator can select 
+what tags are included in a report, the order of the tags, the units and the significant figures.
+They can also set up conditional highlighting which will highlight a value if it is above or below 
+a user defined setpoint. This can be useful for alerting operators when a piece of equipment is 
+due for routine maintenance. Scheduled actions can also be created/edited by the operator, like daily
+file-save and/or email actions. 
+
+
+#### Updated Ad Hoc Alarm Notification Tool
+
+Configuring custom alarm rosters/pipelines in Ignition can also be difficult and time consuming. First, 
+setting up a custom alarm roster/pipeline usually involves configuring pipeline block diagrams and some scripting. Second, 
+Ignition notification pipelines are geared toward using bulk rosters that require setting up each individual's 
+schedule. The Ad Hoc Alarm Notification tool uses dynamic single
+person rosters that can to do "escalation" or "blast" notifications. It's much easier for an operator
+to quickly add/remove themselves from a dynamic roster than to constantly maintain a schedule.
+Also, minimum alarm priority, source path filters, and start-end times can all
+configured for each roster without having to touch a pipeline block diagram or scripting.
+
+
+<img src="../img/on_call_rosters.png" alt="View Structure" style="margin-bottom:15px;">
 
 #### Updated Ad Hoc Trending Tool 
 
-with an easier to use interface
+The Ad Hoc Trending tool has been updated to improve user experience. First, the UI has been 
+simplified and geared more toward operator use-cases.
 
-#### UI Update 
+<img src="../img/trending_ui.png" alt="View Structure" style="margin-bottom:15px;">
 
-for all tools to improve consistency.**
+
+Also, there is a new trend picker tool that is 
+based on the location model. This gives operators quick access to the most used trends without
+having to dig though a complicated tag structure. It also separates the tag types and puts them in different plots
+by default. This new trend picker tool requires little to no setup by the developer. 
+
+<img src="../img/trend_picker.png" alt="View Structure" style="margin-bottom:15px;">
+
+
+
 
 
 
@@ -149,16 +214,21 @@ for all tools to improve consistency.**
 
 #### Simulated Project
 
-A fully simulated project that can be ran in parallel to development.
+The new start-up kit includes a fully simulated example project showing the newer techniques of 2.x. 
+This gives developer a example project (although much simpler than a real world project)
+to help them get started on new projects. Currently, it's a very simple ground water system but more 
+complicated processes/components can be added over time.
 
-#### Cleaner separation of shared resources vs user-defined resources
+<img src="../img/simulated-project.png" alt="View Structure" style="margin-bottom:15px;">
 
-#### Videos
 
-Under development
+#### Improved Documentation with Videos
 
-#### Improved Documentation
-
-Under development
+Currently under development. All development documentation, videos and resources on a single website like this? My vote is yes!
 
 #### Git Integration?
+
+This will let all developers see every change made in templates, when it was changed, and who changed it. 
+Plus, they can easily report bugs, 
+request new features and even contribute through pull requests. Needs some more configuring/testing to improve 
+user experience (f***ing resource files!) but very promising.
