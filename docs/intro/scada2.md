@@ -51,7 +51,7 @@ children locations to be cached at build-time.
 
 #### UDT inheritance
 
-UDT inheritance allows developers to make modifications to the core UDTs
+UDT inheritance allows developers to override properties of the core UDTs
 without breaking their respective symbol/faceplate views. This also
 allows the developer to setup multiple UDTs of a similar type but for
 different AOIs. For example, a developer can setup a VFD UDT and a
@@ -106,7 +106,7 @@ Developers no longer have to do the
 tedious work of lining up rows, enforcing security, creating read/writing tag
 bindings, and adding the correct style classes. This is taken care of in
 the form templates. Also, maintenance is much easier since only a
-view places need to be updated to update every faceplate/dock that
+few places need to be updated to update every faceplate/dock that
 uses form templates. See image below of a custom dock made using
 form templates.
 
@@ -130,7 +130,7 @@ to poll at a faster rate when the tags are being displayed and a slower rate whe
 
 Every view component, that has an alarm associated with it, needs to scan for active children alarms. 
 Originally, every component called 
-the Ignition built-in function `system.alarm.queryStatus()` which does a global alarm scan and can be very
+the Ignition built-in function `system.alarm.queryStatus()` which does a global alarm scan and can be
 computationally expensive. To quote the Ignition manual:
 
 !!! note

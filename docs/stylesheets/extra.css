@@ -1,27 +1,20 @@
 
-/*
+
 [data-md-color-scheme="default"] {
 
     
-
-    --md-primary-fg-color:  green;
-
-    .md-content .md-content__inner .md_typeset{
-    }
-
-    .md-typeset h1 {
-        font-weight:700;
-        color: var(--md-primary-fg-color--dark);
-    }
+  --md-primary-fg-color:        #2a313b;
+  --md-typeset-a-color: #356ed8;
 
   }
 
 
 [data-md-color-scheme="slate"] {
 
-    --md-primary-fg-color: green;
+  --md-primary-fg-color:        #2a313b;
+  --md-typeset-a-color: #5488e8;
 
   }
 
-*/
+
 
