@@ -27,11 +27,12 @@ nav:
 
 theme:
   name: material
-  logo: intro/img/AW_Star_SCADA.svg
 
   features:
     - navigation.tabs
     - navigation.sections
+    - search.suggest
+    - search.highlight
   font:
     text: Inter
 
